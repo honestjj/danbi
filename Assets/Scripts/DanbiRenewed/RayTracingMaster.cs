@@ -27,7 +27,8 @@ public class RayTracingMaster : MonoBehaviour
     string path = "F:/Dropbox/DanbiProject/FinalReport/danbiSceneChanged/debug.txt";
     StreamWriter m_writer;
 
-    public float mCameraHeight = 2.0127f;      // height of chessboard = 0.5cm
+    public float mCameraHeight = 2.0f;      // height of chessboard = 0.5cm
+    public float mDistFromCameraFrontToCenter = 0.12f; // the projection center =7cm from the projector front 
 
     protected bool bCaptureFinished;
     [SerializeField] protected bool UseGPUDebugging = false;
@@ -2934,8 +2935,11 @@ static Matrix4x4 GetOrthoMat(float left, float right, float bottom, float top, f
 
             else
             {   // use the default graphics camera
+
+                //public float mCameraHeight = 2.0127f;      // height of chessboard = 0.5cm
+                // public float mDistanceFromFrontToCenter = 0.07f;
                 Camera.main.gameObject.transform.eulerAngles = new Vector3(90, 0, 0);
-                Camera.main.gameObject.transform.position = new Vector3(0, mCameraHeight, 0);
+                Camera.main.gameObject.transform.position = new Vector3(0, mDistFromCameraFrontToCenter+ mCameraHeight , 0);
 
                 Debug.Log($"camera position={  Camera.main.gameObject.transform.position.y}");
                 Debug.Log($"localToWorldMatrix =\n{ Camera.main.gameObject.transform.localToWorldMatrix}, " +

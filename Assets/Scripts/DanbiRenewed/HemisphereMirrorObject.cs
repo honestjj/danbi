@@ -57,7 +57,7 @@ public class HemisphereMirrorObject : MonoBehaviour
     [SerializeField, Header("Hemisphere Mirror Geometry"), Space(20)]
     public HemisphereParam hemisphereParam = new HemisphereParam
     {
-        distanceFromCamera = 0.43f,     // 43cm
+        distanceFromCamera = 0.327f,     // 32.7cm
         height = 0.08f, // 8cm  
         usedHeight = 0.0f,
         bottomDiscRadius = 0.15f, // 15cm
@@ -120,8 +120,13 @@ public class HemisphereMirrorObject : MonoBehaviour
 
     void HemisphereInitialize()
     {
+        GameObject cameraObject;
+        cameraObject = this.gameObject.transform.parent.parent.GetChild(0).gameObject;
 
-
+        RayTracingMaster rayTracingMaster = cameraObject.GetComponent<RayTracingMaster>();
+        float distFromCameraFrontToCenter = rayTracingMaster.mDistFromCameraFrontToCenter;
+       
+        
         // compute the radius from the height and the bottom disc radius of the dome
         // x^2 + y^2 = r^2
         // y = r-h; x^2 + r^2-2rh + h^2 = r^2; x^2 = 2rh - h^2, r > h
@@ -137,7 +142,8 @@ public class HemisphereMirrorObject : MonoBehaviour
 
 
         var transFromCameraOrigin = new Vector3(0.0f,
-                                                    -(this.hemisphereParam.distanceFromCamera
+                                                    -(distFromCameraFrontToCenter+
+                                                    this.hemisphereParam.distanceFromCamera
                                                     + this.hemisphereParam.sphereRadius),
                                                     0.0f);
         this.gameObject.transform.position = Camera.main.transform.position + transFromCameraOrigin;  // the center of the hemisphere
